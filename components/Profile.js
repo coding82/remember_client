@@ -1,22 +1,30 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { Button, ButtonGroup } from "react-native-elements";
 import styles from "./Style";
 import Random from "./Random";
 import MyList from "./MyList";
+import { connect } from "react-redux";
+import { allBooksThunk } from '../store'
 
-export default class Profile extends React.Component {
+class Profile extends React.Component {
   constructor() {
     super();
     this.state = {
       showRandom: false,
       showMyList: true,
-      selectedIndex: 0
+      selectedIndex: 0,
+      naviIdx: -1
     };
 
     this.handleMyListButton = this.handleMyListButton.bind(this)
     this.handleRandomButton = this.handleRandomButton.bind(this)
     this.updateIndex = this.updateIndex.bind(this)
+    this.navigateQT_Game = this.navigateQT_Game.bind(this)
+  }
+
+  componentDidMount(){
+    this.props.allBooksThunk()
   }
 
   handleMyListButton(){
@@ -31,8 +39,13 @@ export default class Profile extends React.Component {
     this.setState({selectedIndex})
   }
 
+  navigateQT_Game(naviIdx){
+    if(naviIdx === 1) return this.props.navigation.navigate('Game')
+  }
+
 
   render() {
+    const books = this.props.book
     return (
       <View>
 
@@ -57,17 +70,32 @@ export default class Profile extends React.Component {
             buttons={['My List', 'Random']}
             selectedIndex={this.state.selectedIndex}
             onPress={this.updateIndex}
-          />
+            />
 
+            <ButtonGroup
+            buttons={['Quiet Time', 'Game']}
+            selectedIndex={this.state.naviIdx}
+            onPress={this.navigateQT_Game}
+            />
 
         <View>
           {
             // 여기는 일반버튼 사용시 렌더링 this.state.showMyList ? <MyList/> : <Random/>
             // 아래는 그룹버튼 사용시 렌더링
-            this.state.selectedIndex == 0 ? <MyList /> : <Random />
+            this.state.selectedIndex == 0 ? <MyList books={books}/> : <Random />
            }
         </View>
       </View>
     );
   }
 }
+
+const mapState = state => ({
+  book: state.book
+})
+
+const mapDispatch = dispatch => ({
+  allBooksThunk: () => dispatch(allBooksThunk())
+})
+
+export default connect(mapState, mapDispatch)(Profile)
