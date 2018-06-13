@@ -47,8 +47,19 @@ export default styles = StyleSheet.create({
 
   },
 
-  booklist: {
-    width: 300,
+  singleButton: {
+    backgroundColor: 'blue'
+  },
+
+  profileButtonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+
+  profileButton: {
+    backgroundColor: 'black',
+    width: 100
   }
 
 })

@@ -18,9 +18,9 @@ export default class Option extends React.Component {
 
               <TouchableHighlight
               style={styles.blueButton}
-              onPress={() => this.props.navigation.navigate("Bookmark")}
+              onPress={() => this.props.navigation.navigate("MyList")}
               >
-                <Text style={styles.buttonText}>Bookmark</Text>
+                <Text style={styles.buttonText}>My List</Text>
               </TouchableHighlight>
 
 
