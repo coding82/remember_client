@@ -10,20 +10,19 @@ export default class Random extends React.Component {
           <Text>Here is Random Component</Text>
 
           <View style={styles.ButtonContainer}>
-
             <TouchableHighlight
               style={styles.blueButton}
               onPress={() => this.props.navigation.navigate("Start")}
             >
               <Text style={styles.buttonText}>START</Text>
             </TouchableHighlight>
-
             <TouchableHighlight
               style={styles.orangeButton}
               onPress={() => this.props.navigation.navigate("Game")}
             >
               <Text style={styles.buttonText}>Game</Text>
             </TouchableHighlight>
+
           </View>
         </View>
       </View>

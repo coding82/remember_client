@@ -1,48 +1,59 @@
 import React from "react";
-import { View, Text, TouchableHighlight,  } from "react-native";
+import { View, FlatList } from "react-native";
 import styles from "./Style";
-import { List, ListItem } from 'react-native-elements'
+import Start from "./Start";
+import { List, ListItem, ButtonGroup } from "react-native-elements";
 
 export default class MyList extends React.Component {
   constructor() {
     super();
     this.state = {
       book: "hello world",
-      checked: false
+      checked: false,
+      selectedBook: null
     };
-    this.handleChecked = this.handleChecked.bind(this);
-    this.selectedTag = this.selectedTag.bind(this);
-  }
-  selectedTag(){
 
+    this.selectBook = this.selectBook.bind(this);
+    this.handleQTorGame = this.handleQTorGame.bind(this);
   }
 
-  handleChecked() {
+  selectBook(id) {
+    this.setState({ selectedBook: id });
+  }
 
-    this.setState({checked: !this.state.checked})
-    this.selectedTag()
+  handleQTorGame(id) {
+    if (id == 0) this.props.navi.navigate("Start", {selectedBook: this.state.selectedBook});
   }
 
   render() {
     const books = this.props.books;
+
     return (
       <View style={styles.container}>
-        <View style={styles.content}>
+        <View>
+          <Start book={this.state.selectedBook} />
 
-        <List>
-          {
-            books && books.map( item =>
-              <ListItem
-                key={item.id}
-                title={item.chapter}
+          <List containerStyle={{ maxHeight: 200 }}>
+            {books.length && (
+              <FlatList
+                data={books}
+                renderItem={({ item }) => (
+                  <ListItem
+                    keyExtractor={item => item.id}
+                    title={item.book}
+                    subtitle={item.chapter + " : " + item.verse}
+                    onPress={() => this.selectBook(item)}
+                  />
+                )}
               />
-            )
-          }
-        </List>
+            )}
+          </List>
 
-
-
-
+          <ButtonGroup
+            buttons={["Quiet Time", "Game"]}
+            selectedIndex="0"
+            onPress={this.handleQTorGame}
+          />
         </View>
       </View>
     );
